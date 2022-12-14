@@ -19,7 +19,7 @@ from nonebot.params import Arg, CommandArg, ArgPlainText
 
 # rule=to_me()：匹配与机器人有关的事件
 # 事件函数名 = "事件响应器名", rule=to_me,[aliases = {'响应关键词'}],优先级
-weather = on_command("weather", rule=to_me(), aliases={"天气", "天气预报", "weather"}, priority=5)
+weather = on_command("weather", rule=to_me(), aliases={"天气01", "天气预报"}, priority=5)
 
 
 # 获取用户发送的消息内容
@@ -40,7 +40,7 @@ async def handle_city(city: Message = Arg(), city_name: str = ArgPlainText("city
     # 如果参数不符合要求，则提示用户重新输入
     if city_name not in ["天津", "贵州", "四川", '北京', '河北']:
         # 可以使用平台的 Message 类直接构造模版消息
-        await weather.reject(city.template("你要查询的城市 {city} 暂不支持，请重新输入！"))
+        await weather.reject(city.template("你要查询的城市 {{city}} 暂不支持，请重新输入！"))
     city_weather = await get_weather(city_name)
     await weather.finish(city_weather)
 

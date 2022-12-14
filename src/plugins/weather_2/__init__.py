@@ -10,14 +10,17 @@ from nonebot.rule import to_me
 from nonebot.matcher import Matcher
 from nonebot.params import Arg, CommandArg, ArgPlainText
 from nonebot.adapters.onebot.v11 import Bot, Message
-from data import get_data
+from .weather_data import get_data
+import emoji
 
 '''
 最近几天的天气
 命令：天气
+该API只能查询省会以下的城市
+支持直辖市
 '''
-weather = on_command("weather", rule=to_me(), aliases={'天气'}, priority=5)
-city_name = ""
+
+weather = on_command("weather", rule=to_me(), aliases={'实况天气', '天气02'}, priority=5)
 
 
 # 消息处理
@@ -31,16 +34,17 @@ async def handle_first_receive(matcher: Matcher, args: Message = CommandArg()):
 
 
 # 获取城市参数
-@weather.got("city", prompt="请问您需要查询的天气是...")
+welcome = emoji.emojize(
+    '欢迎来到天气查询功能:sparkles:\n请问您需要查询的天气是...\n目前支持查询的城市有\n北京、天津、石家庄、德阳、遵义')
+
+
+@weather.got("city", prompt=welcome)
 async def handle_city(city: Message = Arg(), city_name: str = ArgPlainText("city")):
     # 如果参数不符合，重新输入
-    if city_name not in ["贵州", "北京", "新疆"]:
+    if city_name not in ["北京", '德阳', '天津', '遵义', '重庆', '石家庄']:
         # 错误消息处理
-        await weather.reject(city.template('你要查询的城市 {{city}} 不存在，请重新输入'))
-    city_weather = await get_weather(city_name)
-    await weather.finish(city_name)
-
-
-async def get_weather(city_name: str) -> str:
-    data = get_data(city_name).text
-    return "今日天气为："+data
+        await weather.reject(city.template('你要查询的城市 {city} 暂时不支持查询，请重新输入支持查询的城市'))
+    # 获得天气信息
+    infor = get_data(city_name)
+    results = "今日该城市的天气为：" + infor[0] + "\r\n温度：" + infor[1]
+    await weather.finish(results)
