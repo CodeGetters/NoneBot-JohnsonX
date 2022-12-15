@@ -10,6 +10,7 @@ from nonebot.adapters.onebot.v11 import GroupMessageEvent,MessageEvent, Bot, Mes
 import requests
 
 '''
+已停用
 疫情查询 调用API：http://api.yanxi520.cn/api/virus.php?msg=
 命令：#疫情+城市
 '''

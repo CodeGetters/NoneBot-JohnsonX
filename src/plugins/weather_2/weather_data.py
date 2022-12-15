@@ -21,6 +21,24 @@ def get_data(city_name):
     temperature = data_json['temperature']
     return [weather, temperature]
 
+
 # # 测试
 # get_data('beijing')
 # print(get_data('beijing'))
+
+
+def get_future(city_name):
+    location = city_name
+    API = "https://api.seniverse.com/v3/weather/daily.json?key=S5GRMbU8_bsY3_29f&location=LOCAL&language=zh-Hans&unit=c&start=0&days=3"
+    API = API.replace('LOCAL', location)
+    result = requests.get(API, timeout=1)
+    data = json.dumps(result.json())
+    data_json = json.loads(data)['results'][0]['daily']
+    day01 = data_json[0]
+    list01 = [day01['text_day'], day01['high'], day01['low'], day01['precip']]
+    return list01
+
+
+# print(get_future('北京'))
+# li = get_future('北京')
+# print(li[0])

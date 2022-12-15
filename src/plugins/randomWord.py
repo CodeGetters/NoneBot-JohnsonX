@@ -10,7 +10,7 @@ from nonebot.typing import T_State
 from nonebot.adapters.onebot.v11 import GroupMessageEvent, PrivateMessageEvent, Bot, Message
 
 '''
-随机一言
+今日诗词
 API：'http://api.weijieyue.cn/api/yy/api.php
 '''
 # randomWord = on_keyword('{随机一言}')
