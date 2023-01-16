@@ -10,6 +10,7 @@ import requests
 
 '''
 随机返回二次元图片
+命令：二次元、图片
 API：https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images
 '''
 
@@ -19,6 +20,10 @@ catch_str = on_keyword({'二次元', '图片'})
 @catch_str.handle()
 async def send_img(bot: Bot, event: Event, state: T_State):
     API = 'https://api.btstu.cn/sjbz/api.php?lx=dongman'
-    res = requests.get(API, timeout=1)
-    msg = "[CQ:image,file=" + res.url + "]"
+    try:
+        res = requests.get(API, timeout=5)
+        msg = "[CQ:image,file=" + res.url + "]"
+    # 出错提示
+    except requests.exceptions.RequestException:
+        msg = "接口出错了，请稍后再试！"
     await catch_str.finish(Message(f'{msg}'))

@@ -27,6 +27,9 @@ async def xi():
     # url = "https://v.api.aa1.cn/api/yiyan/index.php"
     # url = "https://v2.jinrishici.com/one.svg"
     url = "https://v1.jinrishici.com/rensheng.txt"
-    hua = requests.get(url=url)
+    try:
+        hua = requests.get(url=url)
+    except requests.exceptions.RequestException:
+        hua = "接口出错了，请稍后再试！"
     data = hua.text
     return data

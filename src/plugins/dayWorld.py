@@ -27,6 +27,9 @@ async def yy(bot: Bot, event: GroupMessageEvent | PrivateMessageEvent, state: T_
 
 async def get_yy():
     url = 'https://api.juncikeji.xyz/api/mryy.php'
-    get_data = requests.get(url=url, timeout=20)
-    get_text = get_data.text
+    try:
+        get_data = requests.get(url=url, timeout=20)
+        get_text = get_data.text
+    except requests.exceptions.RequestException:
+        get_text = "接口出错了，请稍后再试！"
     return get_text

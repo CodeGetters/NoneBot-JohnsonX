@@ -58,6 +58,10 @@ async def handle_city(city: Message = Arg(), city_name_list: str = ArgPlainText(
     # 获得天气信息
     infor = get_data(city_name)
     infor_future = get_future(city_name)
-    results = f"{city_name}的天气为：\r\n目前：" + infor[0] + "  温度：" + infor[1] + "\r\n明日：" + infor_future[
-        0] + "  最高温度为：" + infor_future[1] + "  最低温度为：" + infor_future[2] + "  降水概率为：" + infor_future[3]
+    if type(infor or infor_future) == str:
+        results = "接口出错了，请稍后再试！"
+    else:
+        results = f"{city_name}的天气为：\r\n目前：" + infor[0] + "  温度：" + infor[1] + "\r\n明日：" + infor_future[
+            0] + "  最高温度为：" + infor_future[1] + "  最低温度为：" + infor_future[2] + "  降水概率为：" + infor_future[
+                      3]
     await weather.finish(results)

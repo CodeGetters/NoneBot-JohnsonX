@@ -26,6 +26,9 @@ async def talk(bot: Bot, event: MessageEvent, state: T_State):
 
 async def get_talk():
     url = 'https://api.mcloc.cn/love'
-    result = requests.get(url=url, timeout=30)
-    result_text = result.text
+    try:
+        result = requests.get(url=url, timeout=1)
+        result_text = result.text
+    except requests.exceptions.RequestException:
+        result_text = "接口出错了，请稍后再试！"
     return result_text
